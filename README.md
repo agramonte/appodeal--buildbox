@@ -1,6 +1,8 @@
 # appodeal--buildbox
 Appodeal deal files for buildbox integration.
 
+Video can be found here: https://youtu.be/LgEXMw6pUvM
+
 
 Any questions please add them to this forum posts. This post also has the instructions for the AndroidX and newer Gradel.
 1. https://www.buildbox.com/forum/index.php?threads/appodeal-integration.15485/
