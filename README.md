@@ -32,8 +32,13 @@ maven { url "https://artifactory.appodeal.com/appodeal" }
             android:value="ca-app-pub-xxxxx~xxxxx"/>
             
 ```
+4. Add the follinging to your application section:
 
-4. Add the security file (Thank you GamerGhost). Create a folder named xml in res forder off your app. Create inside this xml folder the network_security_config.xml (right click on res - New - Android Resourse File)
+```
+android:networkSecurityConfig="@xml/network_security_config">
+```
+
+5. Add the security file (Thank you GamerGhost). Create a folder named xml in res forder off your app. Create inside this xml folder the network_security_config.xml (right click on res - New - Android Resourse File)
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -48,12 +53,5 @@ maven { url "https://artifactory.appodeal.com/appodeal" }
 <domain includeSubdomains="true">127.0.0.1</domain>
 </domain-config>
 </network-security-config>
-```
-
-5. Add the follinging to your application section:
-
-```
-android:networkSecurityConfig="@xml/network_security_config">
-```
-
+``
 6. Replace your file HZAdapter file with the version included in this repo.
