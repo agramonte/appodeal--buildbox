@@ -29,7 +29,8 @@ maven { url "https://artifactory.appodeal.com/appodeal" }
 
 ```
 <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-xxxxx~xxxxx/>
+            android:value="ca-app-pub-xxxxx~xxxxx"/>
+            
 ```
 
 4. Add the security file (Thank you GamerGhost). Create a folder named xml in res forder off your app. Create inside this xml folder the network_security_config.xml (right click on res - New - Android Resourse File)
@@ -48,3 +49,11 @@ maven { url "https://artifactory.appodeal.com/appodeal" }
 </domain-config>
 </network-security-config>
 ```
+
+5. Add the follinging to your application section:
+
+```
+android:networkSecurityConfig="@xml/network_security_config">
+```
+
+6. Replace your file HZAdapter file with the version included in this repo.
