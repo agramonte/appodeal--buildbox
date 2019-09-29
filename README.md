@@ -20,20 +20,26 @@ Android Export Instructions:
   implementation 'com.android.support:recyclerview-v7:28.0.0'
   implementation 'com.google.android.gms:play-services-ads:17.0.0'
 ```
-2. Add the following to your app build file inside the all projects bracket:
 
+2. In the same file swicth the target sdk to 28:
+```
+targetSdkVersion 28
+```
+
+3. Add the following to your app build file inside the all projects bracket project build file:
 ```
 maven { url "https://artifactory.appodeal.com/appodeal" }
 ```
 
-3. In the manifest file remove all the Heyzap activities and make sure you add your admob id in the application section.
+
+4. In the manifest file remove all the Heyzap activities and make sure you add your admob id in the application section.
 
 ```
 <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-xxxxx~xxxxx"/>
             
 ```
-4. Add the follinging to your application section:
+5. Add the follinging to your application section:
 
 ```
 android:networkSecurityConfig="@xml/network_security_config">
@@ -54,5 +60,5 @@ android:networkSecurityConfig="@xml/network_security_config">
 <domain includeSubdomains="true">127.0.0.1</domain>
 </domain-config>
 </network-security-config>
-``
+```
 6. Replace your file HZAdapter file with the version included in this repo.
