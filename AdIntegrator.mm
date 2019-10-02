@@ -1,5 +1,5 @@
 #import "AdIntegrator.h"
-#import <Appodeal/Appodeal.h>
+
 
 @implementation AdIntegrator
 
@@ -14,14 +14,24 @@
 }
 
 bool isBannerUp = NO;
+
 #pragma mark Core Methods
 
-- (void)initAds{
-    [Appodeal initializeWithApiKey:@"youkeyhere" types:AppodealAdTypeInterstitial|AppodealAdTypeBanner|AppodealAdTypeRewardedVideo hasConsent:NO];
+- (void)rewardedVideoWillDismissAndWasFullyWatched:(BOOL)wasFullyWatched{
+    
+    if (wasFullyWatched) {
+        PTAdController::shared()->rewardedVideoDidEnd();
+    }
     
 }
 
+- (void)initAds{
+    [Appodeal setRewardedVideoDelegate:self];
+}
+
+
 -(void)showBanner{
+    
     [Appodeal showAd:AppodealShowStyleBannerBottom rootViewController:(UIViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController]];
     
     isBannerUp = YES;
@@ -41,8 +51,10 @@ bool isBannerUp = NO;
 }
 
 -(void)showInterstitial{
-    [Appodeal showAd:AppodealShowStyleInterstitial rootViewController:(UIViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController]];
-
+    if (appDelegate.shouldShowInterstitial){
+        [Appodeal showAd:AppodealShowStyleInterstitial rootViewController:(UIViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController]];
+    }
+    
 }
 
 -(void)showRewardedVideo{
