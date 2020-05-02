@@ -58,6 +58,6 @@ android:networkSecurityConfig="@xml/network_security_config">
 </domain-config>
 </network-security-config>
 ```
-6. Replace your file HZAdapter file with the version included in this repo.  
+6. Replace your HZAdapter file with the version included in this repo.  
 
 7. Delete the file PTAdHeyzap.jar from the "<ProjectExportFolder>/app/libs/". If you leave this library in that folder your game/app will be removed from the store by Google. (Thank you Murtaza Kohinoor youtube subscriber for reporting this issue).
