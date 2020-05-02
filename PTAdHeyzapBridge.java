@@ -16,24 +16,17 @@ public class PTAdHeyzapBridge {
 	private static native String interstitialId();
 	private static native void interstitialDidFail();
 	private static native void rewardVideoComplete();
-
-	private static final String TAG = "AppodealBridge";
-
-	/// Please modify these items.
-	private static final int bannerPosition = Appodeal.BANNER_BOTTOM;
-	/// end
-
-
+	
+	private static final String TAG = "PTAdHeyzapBridge";
 	private static Cocos2dxActivity activity;
 	private static WeakReference<Cocos2dxActivity> s_activity;
-
+	
 	public static void initBridge(Cocos2dxActivity activity){
 		Log.v(TAG, "PTAdHeyzapBridge -- INIT");
-		PTAdHeyzapBridge.s_activity = new WeakReference<Cocos2dxActivity>(activity);
+		PTAdHeyzapBridge.s_activity = new WeakReference<Cocos2dxActivity>(activity);	
 		PTAdHeyzapBridge.activity = activity;
-
+		
 		PTAdHeyzapBridge.initBanner();
-		PTAdHeyzapBridge.initVideo();
 		PTAdHeyzapBridge.initInterstitial();
 
 	}
@@ -43,13 +36,19 @@ public class PTAdHeyzapBridge {
 	}
 
 	public static void initInterstitial(){
-		Log.v(TAG, "AppodealBridge -- Init Interstitial");
+		Log.v(TAG, "PTAdHeyzapBridge -- Init Interstitial");
 
 		Appodeal.setInterstitialCallbacks(new InterstitialCallbacks() {
 			@Override
 			public void onInterstitialLoaded(boolean isPrecache) {
 				// Called when interstitial is loaded
 			}
+
+			@Override
+            public void onInterstitialShowFailed() {
+
+            }
+
 			@Override
 			public void onInterstitialFailedToLoad() {
 				Log.v(TAG, "Appodeal -- onInterstitialFailedToLoad");
@@ -73,12 +72,18 @@ public class PTAdHeyzapBridge {
 				// Called when interstitial is expired
 			}
 		});
-
+				
 	}
-
+	
 	public static void initVideo() {
 
 		Appodeal.setRewardedVideoCallbacks(new RewardedVideoCallbacks() {
+
+		    @Override
+            public void onRewardedVideoShowFailed() {
+
+            }
+
 			@Override
 			public void onRewardedVideoLoaded(boolean isPrecache) {
 				// Called when rewarded video is loaded
@@ -97,7 +102,6 @@ public class PTAdHeyzapBridge {
 			}
 			@Override
 			public void onRewardedVideoFinished(double amount, String name) {
-
 				rewardVideoComplete();
 			}
 			@Override
@@ -110,64 +114,65 @@ public class PTAdHeyzapBridge {
 			}
 		});
 	}
-
+	
 	public static void showRewardedVideo(){
 		Log.v(TAG, "Appodeal -- showRewardedVideo");
-
+		
 
 		PTAdHeyzapBridge.s_activity.get().runOnUiThread( new Runnable() {
-			public void run() {
-				if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            public void run() {
+            	if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
 					Appodeal.show(PTAdHeyzapBridge.activity, Appodeal.REWARDED_VIDEO);
-				}
-			}
-		});
-
+        		}
+            }
+        });
+		
 	}
-
+		
 	public static void startSession( String sdkKey ){
-		if(sdkKey != null && sdkKey != ""){
+        if(sdkKey != null){
 
-			Appodeal.initialize(PTAdHeyzapBridge.activity, sdkKey, Appodeal.INTERSTITIAL | Appodeal.BANNER | Appodeal.REWARDED_VIDEO, false);
-			Log.v(TAG, "Appodeal -- Start Session: " + sdkKey);
+			Appodeal.initialize(PTAdHeyzapBridge.activity, sdkKey, Appodeal.INTERSTITIAL | Appodeal.BANNER, false);
+            Log.v(TAG, "Appodeal -- Start Session: " + sdkKey);
 
-			Log.v(TAG, "Appodeal SDK Version : " + Appodeal.getVersion());
-			PTAdHeyzapBridge.initVideo();
-		}else{
-			Log.v(TAG, "Start Session sdk key is null or empty.");
-		}
-	}
+            Log.v(TAG, "Appodeal SDK Version : " + Appodeal.getVersion());
+    		PTAdHeyzapBridge.initVideo();
+        }else{
+            Log.v(TAG, "Start Session : null ");
+        }
+    }
 
 	public static void showFullScreen(){
 		Log.v(TAG, "Appodeal -- showFullScreen");
+		
 
 		PTAdHeyzapBridge.s_activity.get().runOnUiThread( new Runnable() {
-			public void run() {
+            public void run() {
 				Appodeal.show(PTAdHeyzapBridge.activity, Appodeal.INTERSTITIAL);
-			}
-		});
+            }
+        });
 	}
 
 	public static void showBannerAd(){
 		Log.v(TAG, "Appodeal -- showBannerAd");
-
+		
 
 		PTAdHeyzapBridge.s_activity.get().runOnUiThread( new Runnable() {
-			public void run() {
-				Appodeal.show(PTAdHeyzapBridge.activity, bannerPosition);
-			}
-		});
+            public void run() {
+				Appodeal.show(PTAdHeyzapBridge.activity, Appodeal.BANNER_BOTTOM);
+            }
+        });
 	}
 
 	public static void hideBannerAd(){
 		Log.v(TAG, "Appodeal -- hideBannerAd");
-
+		
 
 		PTAdHeyzapBridge.s_activity.get().runOnUiThread( new Runnable() {
-			public void run() {
-				Appodeal.hide(PTAdHeyzapBridge.activity, bannerPosition);
-			}
-		});
+            public void run() {
+               Appodeal.hide(PTAdHeyzapBridge.activity, Appodeal.BANNER_BOTTOM);
+            }
+        });
 	}
 
 	public static boolean isBannerVisible() {
@@ -175,7 +180,7 @@ public class PTAdHeyzapBridge {
 		//return (PTAdHeyzapBridge.bannerAdView.getVisibility() == View.VISIBLE);
 	}
 
-	public static boolean isRewardedVideoAvialable(){
+	public static boolean isRewardedVideoAvialable(){	
 
 		return Appodeal.isLoaded(Appodeal.REWARDED_VIDEO);
 	}
