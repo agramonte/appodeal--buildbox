@@ -1,8 +1,11 @@
 # appodeal--buildbox
-Appodeal deal files for buildbox integration.
+Appodeal deal files for buildbox integration.  
+Tested on:  
+Appodeal Version: 2.6.3  
+Buildbox: 2.3.8
 
 Video can be found here: https://youtu.be/LgEXMw6pUvM
-
+(The video is now older than the documentation. You can use it as a general idea but please follow this read-me).
 
 Any questions please add them to this forum posts. This post also has the instructions for the AndroidX and newer Gradel.
 1. https://www.buildbox.com/forum/index.php?threads/appodeal-integration.15485/
@@ -15,33 +18,25 @@ All inside buildbox:
 Android Export Instructions:
 1. Add the following to your app build file inside the dependecy brackets:
 ```
-  implementation 'com.appodeal.ads:nodex:2.5.8'
-  implementation 'com.google.android.exoplayer:exoplayer-core:2.8.4'
-  implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.4'
-  implementation 'com.android.support:support-v4:28.0.0'
-  implementation 'com.android.support:recyclerview-v7:28.0.0'
-  implementation 'com.google.android.gms:play-services-ads:17.0.0'
-```
+implementation ('com.appodeal.ads:sdk:2.6.3.+') {
+        exclude group: 'com.appodeal.ads.sdk.networks', module: 'smaato'
+    }
+```  
 
-2. In the same file swicth the target sdk to 28:
-```
-targetSdkVersion 28
-```
-
-3. Add the following to your app build file inside the all projects bracket project build file:
+2. Add the following to your app build file inside the all projects bracket project build file:
 ```
 maven { url "https://artifactory.appodeal.com/appodeal" }
 ```
 
 
-4. In the manifest file remove all the Heyzap activities and make sure you add your admob id in the application section.
+3. In the manifest file remove all the Heyzap activities and make sure you add your admob id in the application section.
 
 ```
 <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-xxxxx~xxxxx"/>
             
 ```
-5. Add the follinging to your application section:
+4. Add the follinging to your application section:
 
 ```
 android:networkSecurityConfig="@xml/network_security_config">
@@ -63,4 +58,6 @@ android:networkSecurityConfig="@xml/network_security_config">
 </domain-config>
 </network-security-config>
 ```
-6. Replace your file HZAdapter file with the version included in this repo.
+6. Replace your file HZAdapter file with the version included in this repo.  
+
+7. Delete the file PTAdHeyzap.jar from the "<ProjectExportFolder>/app/libs/". If you leave this library in that folder your game/app will be removed from the store by Google. (Thank you Murtaza Kohinoor youtube subscriber for reporting this issue).
